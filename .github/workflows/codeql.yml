@@ -38,6 +38,7 @@ jobs:
     - uses: actions/setup-go@v3
       with:
         #go-version-file: './go.mod' # The go.mod file with the required Go version
+        go-version: '1.13'
         cache: true
         #cache-dependancy-path: 'go.sum' # The path to go.sum file to find dependancies to cache
 
