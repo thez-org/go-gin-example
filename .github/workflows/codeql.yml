@@ -41,16 +41,6 @@ jobs:
         cache: true
         cache-dependancy-path: 'go.sum' # The path to go.sum file to find dependancies to cache
 
-    - if: matrix.language == 'javascript'
-      uses: actions/setup-node@v3
-      with:
-        node-version: 16 # The version of Node.js to use
-        cache: 'npm'
-        cache-dependancy-path: '**/package-lock.json' # The path to package-lock.json file to find dependancies to cache
-        # registry-url: 'https://registry.npmjs.org/' # The private registry to use for the Node.js packages
-   
-
-
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
