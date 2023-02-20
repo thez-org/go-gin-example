@@ -8,8 +8,6 @@ on:
   pull_request:
     # The branches below must be a subset of the branches above
       - "main"  # Change this to the branch to default branch
-      - "!ignore/branch" # Ignore CodeQL scan for these branches
-      - "!test/*" # Ignore CodeQL scan for these branches
   paths-ignore:
       - '**/*.md'
       - '**/*.txt'
