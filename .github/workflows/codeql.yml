@@ -1,15 +1,7 @@
-# For most projects, this workflow file will not need changing; you simply need
-# to commit it to your repository.
-#
-# You may wish to alter this file to override the set of languages analyzed,
-# or to provide custom queries or build logic.
-#
-
 name: "CodeQL"
 
 on:
   push:
-    branches: 
       - "main"  # Change this to the branch to default branch
       - "!ignore/branch" # Ignore CodeQL scan for these branches
       - "!test/*" # Ignore CodeQL scan for these branches
@@ -18,6 +10,9 @@ on:
       - "main"  # Change this to the branch to default branch
       - "!ignore/branch" # Ignore CodeQL scan for these branches
       - "!test/*" # Ignore CodeQL scan for these branches
+  paths-ignore:
+      - '**/*.md'
+      - '**/*.txt'
   schedule:
     - cron: '44 23 * * 5' # Run CodeQL scan every Friday at 11:44 PM UTC
     
@@ -35,32 +30,35 @@ jobs:
       fail-fast: false
       matrix:
         language: [ 'go' ]
-        # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby' ]
-        # Learn more about CodeQL language support at https://aka.ms/codeql-docs/language-support
-
+     
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
 
 
-    # Setup the go envrionment and caching
     - uses: actions/setup-go@v3
       with:
         go-version-file: 'path/to/go.mod' # The go.mod file with the required Go version
         cache: true
         cache-dependancy-path: 'go.sum' # The path to go.sum file to find dependancies to cache
 
+    - if: matrix.language == 'javascript'
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16 # The version of Node.js to use
+        cache: 'npm'
+        cache-dependancy-path: '**/package-lock.json' # The path to package-lock.json file to find dependancies to cache
+        # registry-url: 'https://registry.npmjs.org/' # The private registry to use for the Node.js packages
+   
+
+
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
       with:
         languages: ${{ matrix.language }}
-        # If you wish to specify custom queries, you can do so here or in a config file.
-        # By default, queries listed here will override any specified in a config file.
-        # Prefix the list here with "+" to use these queries and those in the config file.
-
-        # Details on CodeQL's query packs refer to : https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
         # queries: security-extended,security-and-quality
+        # debug: true # Only use this for debugging. It will increase the runtime of the action and take up storage
 
     # Autobuild attempts to build any compiled languages  (C/C++, C#, Go, or Java).
     # If this step fails, then you should remove it and run the build manually (see below)
