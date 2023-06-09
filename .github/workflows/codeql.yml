@@ -34,14 +34,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-
-    - uses: actions/setup-go@v3
-      with:
-        #go-version-file: './go.mod' # The go.mod file with the required Go version
-        go-version: '1.13'
-        cache: true
-        #cache-dependancy-path: 'go.sum' # The path to go.sum file to find dependancies to cache
-
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
